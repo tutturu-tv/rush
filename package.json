@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "colyseus": "^0.9.15",
+    "express": "^4.16.3",
+    "key-controller": "^1.3.0",
+    "random-color": "^1.0.1"
+  },
+  "devDependencies": {
+    "axios": "^0.18.0",
+    "colyseus.js": "^0.9.14",
+    "parcel-bundler": "^1.9.7",
+    "pixi.js": "^4.8.1",
+    "standard": "^11.0.1"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "build": "parcel build ./client/index.html --public-url /static --out-dir static",
+    "lint": "standard",
+    "fix": "standard --fix"
+  }
+}

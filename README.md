@@ -1,0 +1,2 @@
+# rush
+a fast game
