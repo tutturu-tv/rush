@@ -1,37 +1,28 @@
 import View from './view'
 import * as axios from 'axios'
 import * as Colyseus from 'colyseus.js'
-import Controller from 'key-controller'
 
 axios
   .get('/api/sizes')
   .then((res) => {
     const view = new View(res.data)
 
-    const client = new Colyseus.Client(`ws://${window.location.host}${window.location.port ? ':' + window.location.port : ''}`)
-    const room = client.join('game')
+    const client = new Colyseus.Client(`ws://${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}`)
+    client.joinOrCreate('game').then(room => {
+      const keymap = [
+        ['up', ['ArrowUp', 'w']],
+        ['down', ['ArrowDown', 's']],
+        ['left', ['ArrowLeft', 'a']],
+        ['right', ['ArrowRight', 'd']]
+      ]
 
-    const directions = ['up', 'down', 'left', 'right']
-    let virtuals = {}
-
-    directions.forEach((direction) => {
-      virtuals[direction] = {
-        keyup (transmitter) {
-          transmitter.send({ direction })
-        }
+      document.onkeydown = e => {
+        keymap.forEach(dir => {
+          if (dir[1].indexOf(e.key) + 1) return room.send('move', dir[0])
+        })
       }
+
+      room.listen('players/:id', (change) => view.updatePlayer(change))
+      room.listen('players/:id/:attribute', (change) => view.updatePosition(change))
     })
-
-    const keymap = {
-      up: ['ArrowUp', 'w'],
-      down: ['ArrowDown', 's'],
-      left: ['ArrowLeft', 'a'],
-      right: ['ArrowRight', 'd']
-    }
-
-    const controller = new Controller(room, virtuals)
-    controller.register(keymap)
-
-    room.listen('players/:id', (change) => view.updatePlayer(change))
-    room.listen('players/:id/:attribute', (change) => view.updatePosition(change))
   })
