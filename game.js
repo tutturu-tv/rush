@@ -9,7 +9,7 @@ const mapY = mapLimits.height
 class GameRoom extends Room {
   onCreate () {
     this.setState({
-      players: { _green_: new Player(1, 1, 'gold4', true) }
+      players: { _green_: new Player(1, 0, 'gold4', true) }
     })
 
     this.onMessage('move', (client, direction) => {
@@ -19,7 +19,7 @@ class GameRoom extends Room {
       switch (direction) {
         case 'up':
 
-          if (player.y + 1 <= mapY) {
+          if (player.y + 1 < mapY) {
             const playerCollidedId = isCollide(player.x, player.y + 1, players)
             if (playerCollidedId) {
               players[playerCollidedId].tagPlayer(player)
@@ -31,7 +31,7 @@ class GameRoom extends Room {
 
         case 'down':
 
-          if (player.y - 1 > 0) {
+          if (player.y - 1 >= 0) {
             const playerCollidedId = isCollide(player.x, player.y - 1, players)
             if (playerCollidedId) {
               players[playerCollidedId].tagPlayer(player)

@@ -1,9 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8">
     <title></title>
+    <style>
+      #tooltip {
+        display: inline-block;
+        color: white;
+        font-family: arial;
+        border: 1px solid black;
+        border-radius: 5px;
+        padding: 6px;
+        background: rgba(0,0,0,0.6);
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+      }
+    </style>
   </head>
   <body>
     <script src="./entry.js"></script>
+    <div id="tooltip">The coolest name ever</div>
   </body>
 </html>

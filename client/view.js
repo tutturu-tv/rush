@@ -6,6 +6,7 @@ const SPRITE_HEIGHT = 16
 const SPRITE_WIDTH = 16
 let SCREEN_WIDTH
 let SCREEN_HEIGHT
+let TT
 
 function getColorTexture (color, renderer) {
   const graphics = new PIXI.Graphics()
@@ -32,12 +33,27 @@ class View {
 
     this._app = new PIXI.Application(SCREEN_WIDTH, SCREEN_HEIGHT, { backgroundColor: 0xffc125 })
     this._sprites = {}
+    this._playerPositions = new Map()
+    TT = document.querySelector('#tooltip')
 
     document.body.appendChild(this._app.view)
+
+    this._app.view.onmousemove = e => {
+      const mouseCoords = coordsToStr(e.layerX, e.layerY)
+      const playerId = this._playerPositions.get(mouseCoords)
+      if (!playerId) return hideToolTip()
+      TT.innerText = playerId
+      TT.style.top = e.y + 'px'
+      TT.style.left = e.x + 'px'
+    }
+
+    this._app.view.onmouseleave = hideToolTip
   }
 
   _removePlayer (id) {
-    this._sprites[id].destroy()
+    const sprite = this._sprites[id]
+    this._playerPositions.delete(coordsToStr(sprite.x, sprite.y))
+    sprite.destroy()
     delete this._sprites[id]
   }
 
@@ -47,20 +63,24 @@ class View {
     console.log(sprite)
 
     sprite.x = x * SPRITE_WIDTH
-    sprite.y = SCREEN_HEIGHT - y * SPRITE_HEIGHT
+    sprite.y = SCREEN_HEIGHT - (y + 1) * SPRITE_HEIGHT
 
     this._sprites[id] = sprite
     this._app.stage.addChild(sprite)
+    this._playerPositions.set(x + ';' + y, id)
   }
 
   _updatePosition (id, coord, value) {
+    const sprite = this._sprites[id]
+    this._playerPositions.delete(coordsToStr(sprite.x, sprite.y))
     if (coord === 'x') {
-      this._sprites[id][coord] = value * SPRITE_WIDTH
+      sprite[coord] = value * SPRITE_WIDTH
     } else {
-      this._sprites[id][coord] = SCREEN_HEIGHT - value * SPRITE_HEIGHT
+      sprite[coord] = SCREEN_HEIGHT - (value + 1) * SPRITE_HEIGHT
     }
 
-    console.log(this._sprites[id].x, this._sprites[id].y)
+    this._playerPositions.set(coordsToStr(sprite.x, sprite.y), id)
+    console.log(sprite.x, sprite.y)
   }
 
   _updateColor (id, tagged) {
@@ -98,3 +118,15 @@ class View {
 }
 
 export default View
+
+function hideToolTip () {
+  TT.style.top = null
+  TT.style.left = null
+};
+
+function coordsToStr (x, y) {
+  const mapH = SCREEN_HEIGHT / SPRITE_HEIGHT
+  const cellW = Math.floor(x / SPRITE_WIDTH)
+  const cellH = mapH - Math.floor(y / SPRITE_HEIGHT) - 1
+  return cellW + ';' + cellH
+}

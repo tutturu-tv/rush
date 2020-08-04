@@ -22,6 +22,8 @@ axios
         })
       }
 
+      console.log(room)
+
       room.listen('players/:id', (change) => view.updatePlayer(change))
       room.listen('players/:id/:attribute', (change) => view.updatePosition(change))
     })
