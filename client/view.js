@@ -56,13 +56,11 @@ class View {
   _updatePosition (id, coord, value) {
     if (coord === 'x') {
       this._sprites[id][coord] = value * SPRITE_WIDTH
-    }
-    else {
+    } else {
       this._sprites[id][coord] = SCREEN_HEIGHT - value * SPRITE_HEIGHT
     }
 
-    
-    console.log(this._sprites[id]['x'], this._sprites[id]['y'])
+    console.log(this._sprites[id].x, this._sprites[id].y)
   }
 
   _updateColor (id, tagged) {
