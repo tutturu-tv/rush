@@ -7,9 +7,64 @@ const mapX = mapLimits.width
 const mapY = mapLimits.height
 
 class GameRoom extends Room {
-  onInit () {
+  onCreate () {
     this.setState({
-      players: {'retard': new Player(1, 1, 'gold4', true)}
+      players: { retard: new Player(1, 1, 'gold4', true) }
+    })
+
+    this.onMessage('move', (client, direction) => {
+      const players = this.state.players
+      const player = players[client.sessionId]
+
+      switch (direction) {
+        case 'up':
+
+          if (player.y + 1 <= mapY) {
+            const playerCollidedId = isCollide(player.x, player.y + 1, players)
+            if (playerCollidedId) {
+              players[playerCollidedId].tagPlayer(player)
+            } else {
+              player.y += 1
+            }
+          }
+          break
+
+        case 'down':
+
+          if (player.y - 1 > 0) {
+            const playerCollidedId = isCollide(player.x, player.y - 1, players)
+            if (playerCollidedId) {
+              players[playerCollidedId].tagPlayer(player)
+            } else {
+              player.y -= 1
+            }
+          }
+          break
+
+        case 'left':
+
+          if (player.x - 1 >= 0) {
+            const playerCollidedId = isCollide(player.x - 1, player.y, players)
+            if (playerCollidedId) {
+              players[playerCollidedId].tagPlayer(player)
+            } else {
+              player.x -= 1
+            }
+          }
+          break
+
+        case 'right':
+
+          if (player.x + 1 < mapX) {
+            const playerCollidedId = isCollide(player.x + 1, player.y, players)
+            if (playerCollidedId) {
+              players[playerCollidedId].tagPlayer(player)
+            } else {
+              player.x += 1
+            }
+          }
+          break
+      }
     })
   }
 
@@ -24,60 +79,6 @@ class GameRoom extends Room {
     const player = new Player(spawnX, spawnY, playerColorNum, false)
 
     this.state.players[client.sessionId] = player
-  }
-
-  onMessage (client, data) {
-    const player = this.state.players[client.sessionId]
-
-    switch (data.direction) {
-      case 'up':
-
-        if (player.y + 1 <= mapY) {
-          const playerCollidedId = isCollide(player.x, player.y + 1, this.state.players)
-          if (playerCollidedId) {
-            this.state.players[playerCollidedId].tagPlayer(player)
-          } else {
-            player.y += 1
-          }
-        }
-        break
-
-      case 'down':
-
-        if (player.y - 1 > 0) {
-          const playerCollidedId = isCollide(player.x, player.y - 1, this.state.players)
-          if (playerCollidedId) {
-            this.state.players[playerCollidedId].tagPlayer(player)
-          } else {
-            player.y -= 1
-          }
-        }
-        break
-
-      case 'left':
-
-        if (player.x - 1 >= 0) {
-          const playerCollidedId = isCollide(player.x - 1, player.y, this.state.players)
-          if (playerCollidedId) {
-            this.state.players[playerCollidedId].tagPlayer(player)
-          } else {
-            player.x -= 1
-          }
-        }
-        break
-
-      case 'right':
-
-        if (player.x + 1 < mapX) {
-          const playerCollidedId = isCollide(player.x + 1, player.y, this.state.players)
-          if (playerCollidedId) {
-            this.state.players[playerCollidedId].tagPlayer(player)
-          } else {
-            player.x += 1
-          }
-        }
-        break
-    }
   }
 
   onLeave (client) {

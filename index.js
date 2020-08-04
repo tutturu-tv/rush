@@ -11,7 +11,7 @@ const GameRoom = require('./game')
 const server = http.createServer(app)
 const gameServer = new colyseus.Server({ server })
 
-gameServer.register('game', GameRoom)
+gameServer.define('game', GameRoom)
 
 app.use('/static', express.static(path.join(__dirname, 'static')))
 
