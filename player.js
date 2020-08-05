@@ -1,9 +1,6 @@
 class Player {
-  constructor (x, y, color, tag) {
-    this.x = x
-    this.y = y
-    this.color = color
-    this.tag = tag
+  constructor (x, y, color, tag, name) {
+    Object.assign(this, { x, y, color, tag, name })
   }
 
   tagPlayer (predator) {

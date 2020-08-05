@@ -6,7 +6,6 @@ const SPRITE_HEIGHT = 16
 const SPRITE_WIDTH = 16
 let SCREEN_WIDTH
 let SCREEN_HEIGHT
-let TT
 
 function getColorTexture (color, renderer) {
   const graphics = new PIXI.Graphics()
@@ -34,25 +33,13 @@ class View {
     this._app = new PIXI.Application(SCREEN_WIDTH, SCREEN_HEIGHT, { backgroundColor: 0xffc125 })
     this._sprites = {}
     this._playerPositions = new Map()
-    TT = document.querySelector('#tooltip')
 
     document.body.appendChild(this._app.view)
-
-    this._app.view.onmousemove = e => {
-      const mouseCoords = coordsToStr(e.layerX, e.layerY)
-      const playerId = this._playerPositions.get(mouseCoords)
-      if (!playerId) return hideToolTip()
-      TT.innerText = playerId
-      TT.style.top = e.y + 'px'
-      TT.style.left = e.x + 'px'
-    }
-
-    this._app.view.onmouseleave = hideToolTip
   }
 
   _removePlayer (id) {
     const sprite = this._sprites[id]
-    this._playerPositions.delete(coordsToStr(sprite.x, sprite.y))
+    this._playerPositions.delete(this.coordsToStr(sprite.x, sprite.y))
     sprite.destroy()
     delete this._sprites[id]
   }
@@ -72,14 +59,14 @@ class View {
 
   _updatePosition (id, coord, value) {
     const sprite = this._sprites[id]
-    this._playerPositions.delete(coordsToStr(sprite.x, sprite.y))
+    this._playerPositions.delete(this.coordsToStr(sprite.x, sprite.y))
     if (coord === 'x') {
       sprite[coord] = value * SPRITE_WIDTH
     } else {
       sprite[coord] = SCREEN_HEIGHT - (value + 1) * SPRITE_HEIGHT
     }
 
-    this._playerPositions.set(coordsToStr(sprite.x, sprite.y), id)
+    this._playerPositions.set(this.coordsToStr(sprite.x, sprite.y), id)
     console.log(sprite.x, sprite.y)
   }
 
@@ -115,18 +102,13 @@ class View {
       }
     }
   }
+
+  coordsToStr (x, y) {
+    const mapH = SCREEN_HEIGHT / SPRITE_HEIGHT
+    const cellW = Math.floor(x / SPRITE_WIDTH)
+    const cellH = mapH - Math.floor(y / SPRITE_HEIGHT) - 1
+    return cellW + ';' + cellH
+  }
 }
 
 export default View
-
-function hideToolTip () {
-  TT.style.top = null
-  TT.style.left = null
-};
-
-function coordsToStr (x, y) {
-  const mapH = SCREEN_HEIGHT / SPRITE_HEIGHT
-  const cellW = Math.floor(x / SPRITE_WIDTH)
-  const cellH = mapH - Math.floor(y / SPRITE_HEIGHT) - 1
-  return cellW + ';' + cellH
-}

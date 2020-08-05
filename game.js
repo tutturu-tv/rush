@@ -8,8 +8,10 @@ const mapY = mapLimits.height
 
 class GameRoom extends Room {
   onCreate () {
+    console.log('Room ' + this.roomId + ' has been created.')
+
     this.setState({
-      players: { _green_: new Player(1, 0, 'gold4', true) }
+      players: { _green_: new Player(1, 0, 'gold4', true, 'zombie') }
     })
 
     this.onMessage('move', (client, direction) => {
@@ -68,15 +70,20 @@ class GameRoom extends Room {
     })
   }
 
-  onJoin (client) {
+  onJoin (client, options) {
     console.log('client ', client.sessionId, ' joined')
+
+    const playerName = options?.name
+    if (!playerName || !validatePlayerName(playerName)) {
+      return client.leave()
+    }
 
     const spawnX = randomSpawn(mapX)
     const spawnY = randomSpawn(mapY)
 
     const playerColorStr = randomColor().hexString().replace('#', '0x')
     const playerColorNum = Number.parseInt(playerColorStr)
-    const player = new Player(spawnX, spawnY, playerColorNum, false)
+    const player = new Player(spawnX, spawnY, playerColorNum, false, playerName)
 
     this.state.players[client.sessionId] = player
   }
@@ -88,7 +95,7 @@ class GameRoom extends Room {
   }
 
   onDispose () {
-    console.log('server died lelelelel')
+    console.log('Room ' + this.roomId + ' has been disposed of.')
   }
 }
 
@@ -104,4 +111,9 @@ function isCollide (x, y, playerlist) {
 
 function randomSpawn (upperbound) {
   return Math.floor(Math.random() * upperbound)
+}
+
+function validatePlayerName (name) {
+  if (typeof name !== 'string') return false
+  return /^[0-9A-Za-z ]{1,15}$/.test(name) && name.replace(/\s/g, '') !== ''
 }
