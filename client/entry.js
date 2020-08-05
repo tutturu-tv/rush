@@ -6,7 +6,7 @@ import * as Colyseus from 'colyseus.js'
 const nameInput = document.getElementById('name')
 const submitBtn = document.getElementById('submit')
 const errorMsg = document.getElementById('errorMsg')
-const TT = document.querySelector('#tooltip')
+const TT = document.getElementById('tooltip')
 
 if (localStorage.name) nameInput.value = localStorage.name
 
