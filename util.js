@@ -1,6 +1,21 @@
+const mapLimits = require('./conf.json')
+
+const mapX = mapLimits.width
+const mapY = mapLimits.height
+
 class Util {
+  static findFreeCell (players) {
+    let spawnX, spawnY
+    do {
+      spawnX = Util.randomNumber(mapX)
+      spawnY = Util.randomNumber(mapY)
+    } while (Util.isCellOccupied(spawnX, spawnY, players) !== false)
+    return [spawnX, spawnY]
+  }
+
   static isCellOccupied (x, y, playerlist) { // Returns a player in cell [x, y] or undefined if it is empty
-    return Object.values(playerlist).find(p => p.x === x && p.y === y)
+    const player = Object.values(playerlist).find(p => p.x === x && p.y === y)
+    return player || false
   }
 
   static inRange (n, _min, _max) { // Whether n is in the range [_min; _max]

@@ -1,5 +1,5 @@
 const mapLimits = require('./conf.json')
-const { isCellOccupied, inRange, randomNumber } = require('./util')
+const { findFreeCell, isCellOccupied, inRange } = require('./util')
 const { Room } = require('colyseus')
 const randomColor = require('random-color')
 const Player = require('./player')
@@ -49,14 +49,14 @@ class GameRoom extends Room {
       return client.leave()
     }
 
-    const spawnX = randomNumber(mapX)
-    const spawnY = randomNumber(mapY)
+    const players = this.state.players
+    const spawnCoords = findFreeCell(players)
 
     const playerColorStr = randomColor().hexString().replace('#', '0x')
     const playerColorNum = Number.parseInt(playerColorStr)
-    const player = new Player(spawnX, spawnY, playerColorNum, false, playerName)
+    const player = new Player(spawnCoords[0], spawnCoords[1], playerColorNum, false, playerName)
 
-    this.state.players[client.sessionId] = player
+    players[client.sessionId] = player
   }
 
   onLeave (client) {
