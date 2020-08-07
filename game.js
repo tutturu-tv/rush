@@ -45,7 +45,7 @@ class GameRoom extends Room {
 
     const playerName = options?.name
     if (!playerName || !Player.validateName(playerName)) {
-      console.log('client ' + client.sessionId + ' hasn\'t provided a name')
+      console.log('client ' + client.sessionId + ' hasn\'t provided a valid name')
       return client.leave()
     }
 

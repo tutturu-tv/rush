@@ -17,7 +17,7 @@
     "lint": "standard",
     "fix": "standard --fix"
   },
-    "engines": {
+  "engines": {
     "node": ">=14"
   }
 }

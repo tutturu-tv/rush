@@ -4,7 +4,7 @@ const mapX = mapLimits.width
 const mapY = mapLimits.height
 
 class Util {
-  static findFreeCell (players) {
+  static findFreeCell (players) { // Returns the coordinates of the free cell (Will go into an infinite loop if the whole field is filled with players)
     let spawnX, spawnY
     do {
       spawnX = Util.randomNumber(mapX)
