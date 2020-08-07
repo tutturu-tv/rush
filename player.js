@@ -4,11 +4,13 @@ class Player {
   }
 
   tagPlayer (predator) {
-    if (predator.tag) {
-      this.tag = true
-    } else if (!predator.tag && this.tag) {
-      predator.tag = true
-    }
+    if (predator.tag) this.tag = true
+    else if (this.tag) predator.tag = true
+  }
+
+  static validateName (name) {
+    if (typeof name !== 'string') return false
+    return /^[0-9A-Za-z ]{1,15}$/.test(name) && name.replace(/\s/g, '') !== ''
   }
 }
 

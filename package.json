@@ -16,5 +16,8 @@
     "build": "parcel build ./client/index.html --public-url /static --out-dir static",
     "lint": "standard",
     "fix": "standard --fix"
+  },
+    "engines": {
+    "node": ">=14"
   }
 }
