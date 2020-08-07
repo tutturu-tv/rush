@@ -32,12 +32,15 @@ class View {
 
     this._app = new PIXI.Application(SCREEN_WIDTH, SCREEN_HEIGHT, { backgroundColor: 0xffc125 })
     this._sprites = {}
+    this._playerPositions = new Map()
 
     document.body.appendChild(this._app.view)
   }
 
   _removePlayer (id) {
-    this._sprites[id].destroy()
+    const sprite = this._sprites[id]
+    this._playerPositions.delete(this.coordsToStr(sprite.x, sprite.y))
+    sprite.destroy()
     delete this._sprites[id]
   }
 
@@ -47,20 +50,24 @@ class View {
     console.log(sprite)
 
     sprite.x = x * SPRITE_WIDTH
-    sprite.y = SCREEN_HEIGHT - y * SPRITE_HEIGHT
+    sprite.y = SCREEN_HEIGHT - (y + 1) * SPRITE_HEIGHT
 
     this._sprites[id] = sprite
     this._app.stage.addChild(sprite)
+    this._playerPositions.set(x + ';' + y, id)
   }
 
   _updatePosition (id, coord, value) {
+    const sprite = this._sprites[id]
+    this._playerPositions.delete(this.coordsToStr(sprite.x, sprite.y))
     if (coord === 'x') {
-      this._sprites[id][coord] = value * SPRITE_WIDTH
+      sprite[coord] = value * SPRITE_WIDTH
     } else {
-      this._sprites[id][coord] = SCREEN_HEIGHT - value * SPRITE_HEIGHT
+      sprite[coord] = SCREEN_HEIGHT - (value + 1) * SPRITE_HEIGHT
     }
 
-    console.log(this._sprites[id].x, this._sprites[id].y)
+    this._playerPositions.set(this.coordsToStr(sprite.x, sprite.y), id)
+    console.log(sprite.x, sprite.y)
   }
 
   _updateColor (id, tagged) {
@@ -94,6 +101,13 @@ class View {
         this._updateColor(change.path.id, change.value)
       }
     }
+  }
+
+  coordsToStr (x, y) {
+    const mapH = SCREEN_HEIGHT / SPRITE_HEIGHT
+    const cellW = Math.floor(x / SPRITE_WIDTH)
+    const cellH = mapH - Math.floor(y / SPRITE_HEIGHT) - 1
+    return cellW + ';' + cellH
   }
 }
 
