@@ -1,3 +1,5 @@
+const nameRegExp = /^[0-9A-Za-z ]{1,15}$/
+
 class Player {
   constructor (x, y, color, tag, name) {
     Object.assign(this, { x, y, color, tag, name })
@@ -10,7 +12,7 @@ class Player {
 
   static validateName (name) {
     if (typeof name !== 'string') return false
-    return /^[0-9A-Za-z ]{1,15}$/.test(name) && name.replace(/\s/g, '') !== ''
+    return nameRegExp.test(name) && name.replace(/\s/g, '') !== ''
   }
 }
 

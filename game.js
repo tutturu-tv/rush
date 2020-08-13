@@ -9,7 +9,7 @@ const mapY = mapLimits.height
 
 class GameRoom extends Room {
   onCreate () {
-    console.log('Room ' + this.roomId + ' has been created.')
+    console.log('Room ', this.roomId, ' has been created.')
 
     this.setState({
       players: { _green_: new Player(1, 0, 'gold4', true, 'zombie') }
@@ -45,7 +45,7 @@ class GameRoom extends Room {
 
     const playerName = options?.name
     if (!playerName || !Player.validateName(playerName)) {
-      console.log('client ' + client.sessionId + ' hasn\'t provided a valid name')
+      console.log('client ', client.sessionId, ' hasn\'t provided a valid name')
       return client.leave()
     }
 
@@ -66,7 +66,7 @@ class GameRoom extends Room {
   }
 
   onDispose () {
-    console.log('Room ' + this.roomId + ' has been disposed of.')
+    console.log('Room ', this.roomId, ' has been disposed of.')
   }
 }
 
