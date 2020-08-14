@@ -36,7 +36,7 @@ function startGame (name) {
     .then((res) => {
       const view = new View(res.data)
 
-      const client = new Colyseus.Client(`ws://${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}`)
+      const client = new Colyseus.Client(`${window.isSecureContext ? 'wss' : 'ws'}://${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}`)
       client.joinOrCreate('game', { name }).then(room => {
         const keymap = [
           ['up', ['ArrowUp', 'w']],
