@@ -1,14 +1,15 @@
 const mapLimits = require('./conf.json')
+const { findFreeCell, isCellOccupied, inRange } = require('./util')
 const { Room } = require('colyseus')
-const Player = require('./player')
 const randomColor = require('random-color')
+const Player = require('./player')
 
 const mapX = mapLimits.width
 const mapY = mapLimits.height
 
 class GameRoom extends Room {
   onCreate () {
-    console.log('Room ' + this.roomId + ' has been created.')
+    console.log('Room ', this.roomId, ' has been created.')
 
     this.setState({
       players: { _green_: new Player(1, 0, 'gold4', true, 'zombie') }
@@ -18,55 +19,24 @@ class GameRoom extends Room {
       const players = this.state.players
       const player = players[client.sessionId]
 
-      switch (direction) {
-        case 'up':
-
-          if (player.y + 1 < mapY) {
-            const playerCollidedId = isCollide(player.x, player.y + 1, players)
-            if (playerCollidedId) {
-              players[playerCollidedId].tagPlayer(player)
-            } else {
-              player.y += 1
-            }
-          }
-          break
-
-        case 'down':
-
-          if (player.y - 1 >= 0) {
-            const playerCollidedId = isCollide(player.x, player.y - 1, players)
-            if (playerCollidedId) {
-              players[playerCollidedId].tagPlayer(player)
-            } else {
-              player.y -= 1
-            }
-          }
-          break
-
-        case 'left':
-
-          if (player.x - 1 >= 0) {
-            const playerCollidedId = isCollide(player.x - 1, player.y, players)
-            if (playerCollidedId) {
-              players[playerCollidedId].tagPlayer(player)
-            } else {
-              player.x -= 1
-            }
-          }
-          break
-
-        case 'right':
-
-          if (player.x + 1 < mapX) {
-            const playerCollidedId = isCollide(player.x + 1, player.y, players)
-            if (playerCollidedId) {
-              players[playerCollidedId].tagPlayer(player)
-            } else {
-              player.x += 1
-            }
-          }
-          break
+      const moveMap = {
+        up: [0, 1],
+        down: [0, -1],
+        left: [-1, 0],
+        right: [1, 0]
       }
+
+      const moveOffset = moveMap[direction]
+      if (!moveOffset) return
+      const newX = player.x + moveOffset[0]
+      const newY = player.y + moveOffset[1]
+      if (!inRange(newX, 0, mapX - 1) || !inRange(newY, 0, mapY - 1)) return
+
+      const collidedPlayer = isCellOccupied(newX, newY, players)
+      if (collidedPlayer) return collidedPlayer.tagPlayer(player)
+
+      player.x = newX
+      player.y = newY
     })
   }
 
@@ -74,18 +44,19 @@ class GameRoom extends Room {
     console.log('client ', client.sessionId, ' joined')
 
     const playerName = options?.name
-    if (!playerName || !validatePlayerName(playerName)) {
+    if (!playerName || !Player.validateName(playerName)) {
+      console.log('client ', client.sessionId, ' hasn\'t provided a valid name')
       return client.leave()
     }
 
-    const spawnX = randomSpawn(mapX)
-    const spawnY = randomSpawn(mapY)
+    const players = this.state.players
+    const spawnCoords = findFreeCell(players)
 
     const playerColorStr = randomColor().hexString().replace('#', '0x')
     const playerColorNum = Number.parseInt(playerColorStr)
-    const player = new Player(spawnX, spawnY, playerColorNum, false, playerName)
+    const player = new Player(spawnCoords[0], spawnCoords[1], playerColorNum, false, playerName)
 
-    this.state.players[client.sessionId] = player
+    players[client.sessionId] = player
   }
 
   onLeave (client) {
@@ -95,25 +66,8 @@ class GameRoom extends Room {
   }
 
   onDispose () {
-    console.log('Room ' + this.roomId + ' has been disposed of.')
+    console.log('Room ', this.roomId, ' has been disposed of.')
   }
 }
 
 module.exports = GameRoom
-
-function isCollide (x, y, playerlist) {
-  for (const player in playerlist) {
-    if (playerlist[player].x === x && playerlist[player].y === y) {
-      return player
-    }
-  }
-}
-
-function randomSpawn (upperbound) {
-  return Math.floor(Math.random() * upperbound)
-}
-
-function validatePlayerName (name) {
-  if (typeof name !== 'string') return false
-  return /^[0-9A-Za-z ]{1,15}$/.test(name) && name.replace(/\s/g, '') !== ''
-}
