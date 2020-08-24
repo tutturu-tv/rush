@@ -1,21 +1,35 @@
 {
-  "dependencies": {
-    "axios": "^0.18.0",
-    "colyseus": "^0.13.7",
-    "colyseus.js": "^0.13.0",
-    "express": "^4.16.3",
-    "pixi.js": "^4.8.1",
-    "random-color": "^1.0.1"
-  },
-  "devDependencies": {
-    "parcel-bundler": "^1.9.7",
-    "standard": "^14.3.4"
-  },
+  "name": "@tutturu-tv/rush",
+  "version": "1.0.0",
+  "description": "A fast game",
+  "main": "dist/src/index.js",
   "scripts": {
-    "start": "node index.js",
-    "build": "parcel build ./client/index.html --public-url /static --out-dir static",
-    "lint": "standard",
-    "fix": "standard --fix"
+    "start": "node .",
+    "build": "bash ./scripts/build.sh",
+    "dev": "yarn lint && yarn clean && yarn build && yarn start",
+    "clean": "rm -rf dist",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix"
+  },
+  "author": "Tutturu-tv",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/express": "^4.17.7",
+    "@types/ioredis": "^4.17.3",
+    "@types/node": "^14.6.0",
+    "@types/ws": "^7.2.6",
+    "@typescript-eslint/eslint-plugin": "^3.9.1",
+    "@typescript-eslint/parser": "^3.9.1",
+    "eslint": "^7.7.0",
+    "parcel-bundler": "^1.12.4",
+    "typescript": "^3.9.0 < 3.10.0"
+  },
+  "dependencies": {
+    "@cryb/mesa": "^1.4.7",
+    "express": "^4.17.1",
+    "helmet": "^4.0.0",
+    "konva": "^7.0.6",
+    "mesa-js-client": "^1.4.6"
   },
   "engines": {
     "node": ">=14"

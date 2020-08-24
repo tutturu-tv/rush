@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "target": "es2020",
+        "lib": [
+            "es2020", 
+            "dom"
+        ],
+        "baseUrl": ".",
+        "paths": {
+            "client": ["src/client"]
+        },
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "esModuleInterop": true,
+        "moduleResolution": "node",
+        "module": "commonjs",
+        "outDir": "./dist",
+        "resolveJsonModule": true,
+        "strict": true,
+        "strictPropertyInitialization": false
+    },
+    "include": ["./src"]
+}
