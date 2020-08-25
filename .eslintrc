@@ -33,6 +33,7 @@
       "objects": "always-multiline"
     }],
     "dot-notation": "error",
+    "eol-last": "error",
     "no-empty-function": "off",
     "no-unused-expressions": "off",
     "space-before-function-paren": [

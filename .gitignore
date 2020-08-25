@@ -5,3 +5,5 @@ temp/
 .parcel-cache/
 .vscode/
 *.log
+*.swo
+*.swp

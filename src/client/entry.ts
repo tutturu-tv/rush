@@ -2,7 +2,7 @@ import MesaClient from "mesa-js-client";
 import Controller from "./Controller";
 import { InitMessage } from "./defs";
 
-const client = new MesaClient(`${window.isSecureContext ? 'wss' : 'ws'}://${location.host}/api/ws`);
+const client = new MesaClient(`${window.isSecureContext ? "wss" : "ws"}://${location.host}/api/ws`);
 const nameInput = document.getElementById("name") as HTMLInputElement;
 const submitBtn = document.getElementById("submit") as HTMLInputElement;
 const errorMsg = document.getElementById("errorMsg") as HTMLDivElement;
