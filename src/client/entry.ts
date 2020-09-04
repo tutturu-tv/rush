@@ -11,7 +11,7 @@ const startScreen = document.getElementById("startScreen-wrap") as HTMLDivElemen
 if (localStorage.name) nameInput.value = localStorage.name;
 
 nameInput.onkeypress = e => {
-  if (e.key == "Enter")
+  if (e.key === "Enter")
     submitName();
 };
 

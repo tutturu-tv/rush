@@ -2,13 +2,10 @@
     "compilerOptions": {
         "target": "es2020",
         "lib": [
-            "es2020", 
+            "es2020",
             "dom"
         ],
-        "baseUrl": ".",
-        "paths": {
-            "client": ["src/client"]
-        },
+        "rootDir": "./src",
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noImplicitReturns": true,

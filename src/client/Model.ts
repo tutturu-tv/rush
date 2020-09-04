@@ -32,7 +32,7 @@ class Model implements IModel {
     this.gameField = data.gameField.map(row =>
       row.map(rawEntity => {
         const entity = JSON.parse(rawEntity);
-        if (entity?._entityType == "Player")
+        if (entity?._entityType === "Player")
           this.players.set(entity.playerId, entity);
         return entity;
       })
@@ -51,9 +51,9 @@ class Model implements IModel {
 
       if (!player)
         return this.view.hideTooltip();
-      if (player._entityType == "Player")
+      if (player._entityType === "Player")
         return this.view.showTooltip(player.name, e.y, e.x);
-      if (player._entityType == "Zombie")
+      if (player._entityType === "Zombie")
         return this.view.showTooltip("Zombie", e.y, e.x);
     };
 

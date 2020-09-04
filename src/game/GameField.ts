@@ -73,7 +73,7 @@ class GameField extends EventEmitter {
   }
 
   public safeExport() {
-    return this.field.map(row => row.map(entity => "" + entity));
+    return this.field.map(row => row.map(entity => entity?.toString()));
   }
 }
 

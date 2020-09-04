@@ -54,7 +54,7 @@ class View implements IView {
     this.stage = new Stage({
       width: this.cellWidth * mapWidth,
       height: this.cellHeight * mapHeight,
-      container: "#"+container.id,
+      container: `#${container.id}`,
     });
     this.layer = new Layer();
     this.stage.add(this.layer);
@@ -120,8 +120,8 @@ class View implements IView {
 
   public showTooltip(text: string, top: number, left: number) {
     this.tooltip.innerText = text;
-    this.tooltip.style.setProperty("top", top + "px");
-    this.tooltip.style.setProperty("left", left + "px");
+    this.tooltip.style.setProperty("top", `${top}px`);
+    this.tooltip.style.setProperty("left", `${left}px`);
   }
 
   public hideTooltip() {
@@ -130,13 +130,13 @@ class View implements IView {
   }
 
   private defineEntity(entity: any) {
-    if (entity._entityType == "Player" && entity.team == "Red") return "Player";
-    if (entity._entityType == "Zombie" || entity?.team == "Green") return "Zombie";
+    if (entity._entityType === "Player" && entity.team === "Red") return "Player";
+    if (entity._entityType === "Zombie" || entity?.team === "Green") return "Zombie";
     return "Unknown";
   }
 
   private getShape(x: number, y: number) {
-    return this.shapes.find(e => e.x() == x*this.cellWidth && e.y() == y*this.cellHeight);
+    return this.shapes.find(e => e.x() === x*this.cellWidth && e.y() === y*this.cellHeight);
   }
 
   private getEntityColor(entity: Entity) {

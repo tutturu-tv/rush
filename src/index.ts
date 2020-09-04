@@ -2,7 +2,7 @@
 import server from "./server";
 import wss from "./server/websocket";
 
-import { mapSize } from "../config.json";
+import { mapSize } from "./config.json";
 import GameRoom from "./game/GameRoom";
 
 const room = new GameRoom(mapSize.x, mapSize.y);

@@ -28,8 +28,8 @@ class Player extends Entity {
   public collide(entity: Entity) {
     if (entity instanceof Zombie) return this.changeTeam("Green");
     if (entity instanceof Player) {
-      if (entity.team == "Green") return this.changeTeam("Green");
-      if (this.team == "Green") return entity.changeTeam("Green");
+      if (entity.team === "Green") return this.changeTeam("Green");
+      if (this.team === "Green") return entity.changeTeam("Green");
     }
   }
 
@@ -47,7 +47,7 @@ class Player extends Entity {
   }
 
   public changeTeam(newTeam: Team) {
-    if (this.team == newTeam) return;
+    if (this.team === newTeam) return;
     this.team = newTeam;
     this.gameField?.emit("event", new TeamChangeEvent(this));
   }

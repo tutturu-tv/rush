@@ -5,7 +5,7 @@ import GameField from "./GameField";
 import Player from "./Entities/Player";
 import Zombie from "./Entities/Zombie";
 import { moveMap, MoveDirection, Data, GameEvent, MoveEvent, JoinEvent, LeaveEvent } from "./defs";
-import { playersPerRoom } from "../../config.json";
+import { playersPerRoom } from "../config.json";
 import logger from "../utils/logger";
 
 declare interface GameRoom extends EventEmitter {
@@ -116,7 +116,7 @@ class GameRoom extends EventEmitter {
       if (!room.isNameAvailable(name))
         return client.send(new Message(0, { reason: "Name already taken" }, "INVALID_NAME")), true;
 
-      if(room.players.size == playersPerRoom)
+      if (room.players.size === playersPerRoom)
         return client.send(new Message(0, {}, "GAME_ROOM_IS_FULL"), true);
 
       client.removeListener("message", nameRequestHandler);
@@ -126,7 +126,7 @@ class GameRoom extends EventEmitter {
 
   public broadcast(event: GameEvent, author?: Client) {
     for (const [ playerId ] of this.players) {
-      if (author && author.serverId == playerId) continue;
+      if (author && author.serverId === playerId) continue;
       this.clients.get(playerId)?.send(new Message(0, event, "GAME_EVENT"), true);
     }
   }
@@ -134,7 +134,7 @@ class GameRoom extends EventEmitter {
   public isNameAvailable(name: string) {
     let available = true;
     this.players.forEach(player => {
-      if (player.name == name)
+      if (player.name === name)
         available = false;
     });
     return available;

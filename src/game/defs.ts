@@ -23,7 +23,7 @@ export class JoinEvent implements GameEvent {
   public data: JoinEventData;
 
   public constructor(player: Player | string) {
-    this.data = { player: "" + player };
+    this.data = { player: player.toString() };
   }
 }
 
@@ -49,7 +49,7 @@ export class TeamChangeEvent implements GameEvent {
   public data: TeamChangeEventData;
 
   public constructor(player: Player | string) {
-    this.data = { player: "" + player };
+    this.data = { player: player.toString() };
   }
 }
 
@@ -62,7 +62,7 @@ export class MoveEvent implements GameEvent {
   public data: MoveEventData;
 
   public constructor(player: Player | string) {
-    this.data = { player: "" + player };
+    this.data = { player: player.toString() };
   }
 }
 

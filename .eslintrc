@@ -20,7 +20,7 @@
   "rules": {
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "curly": ["error", "multi"],
-    "quotes": ["error", "double"],
+    "quotes": ["error", "single"],
     "semi": ["error", "always"],
     "arrow-parens": ["error", "as-needed"],
     "brace-style": "error",
