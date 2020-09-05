@@ -1,4 +1,4 @@
-import Player from "./Entities/Player";
+import Player from './Entities/Player';
 
 export const moveMap = {
   up: [0, -1],
@@ -19,7 +19,7 @@ export interface GameEvent {
 }
 
 export class JoinEvent implements GameEvent {
-  public type = "PLAYER_JOINED";
+  public type = 'PLAYER_JOINED';
   public data: JoinEventData;
 
   public constructor(player: Player | string) {
@@ -32,7 +32,7 @@ interface JoinEventData {
 }
 
 export class LeaveEvent implements GameEvent {
-  public type = "PLAYER_LEAVES";
+  public type = 'PLAYER_LEAVES';
   public data: LeaveEventData;
 
   public constructor(playerId: string) {
@@ -45,7 +45,7 @@ interface LeaveEventData {
 }
 
 export class TeamChangeEvent implements GameEvent {
-  public type = "PLAYER_TEAM_CHANGE";
+  public type = 'PLAYER_TEAM_CHANGE';
   public data: TeamChangeEventData;
 
   public constructor(player: Player | string) {
@@ -58,7 +58,7 @@ interface TeamChangeEventData {
 }
 
 export class MoveEvent implements GameEvent {
-  public type = "PLAYER_MOVED";
+  public type = 'PLAYER_MOVED';
   public data: MoveEventData;
 
   public constructor(player: Player | string) {

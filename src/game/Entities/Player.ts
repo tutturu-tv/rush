@@ -1,10 +1,10 @@
-import Entity from "./Entity";
-import Zombie from "./Zombie";
-import { TeamChangeEvent } from "../defs";
+import Entity from './Entity';
+import Zombie from './Zombie';
+import { TeamChangeEvent } from '../defs';
 
 const nameRegExp = /^[0-9A-Za-z ]{1,15}$/;
 
-export type Team = "Red" | "Green";
+export type Team = 'Red' | 'Green';
 
 declare interface Player extends Entity {
   playerId: string;
@@ -17,7 +17,7 @@ class Player extends Entity {
   public name: string;
   public team: Team;
 
-  public constructor(playerId: string, name: string, team: Team = "Red") {
+  public constructor(playerId: string, name: string, team: Team = 'Red') {
     super();
 
     this.playerId = playerId;
@@ -26,10 +26,10 @@ class Player extends Entity {
   }
 
   public collide(entity: Entity) {
-    if (entity instanceof Zombie) return this.changeTeam("Green");
+    if (entity instanceof Zombie) return this.changeTeam('Green');
     if (entity instanceof Player) {
-      if (entity.team === "Green") return this.changeTeam("Green");
-      if (this.team === "Green") return entity.changeTeam("Green");
+      if (entity.team === 'Green') return this.changeTeam('Green');
+      if (this.team === 'Green') return entity.changeTeam('Green');
     }
   }
 
@@ -40,7 +40,7 @@ class Player extends Entity {
       playerId: this.playerId,
       name: this.name,
       team: this.team,
-      _entityType: "Player",
+      _entityType: 'Player',
     };
 
     return JSON.stringify(object);
@@ -49,11 +49,11 @@ class Player extends Entity {
   public changeTeam(newTeam: Team) {
     if (this.team === newTeam) return;
     this.team = newTeam;
-    this.gameField?.emit("event", new TeamChangeEvent(this));
+    this.gameField?.emit('event', new TeamChangeEvent(this));
   }
 
   public static validateName(name: string) {
-    return nameRegExp.test(name) && name.replace(/\s/g, "") !== "";
+    return nameRegExp.test(name) && name.replace(/\s/g, '') !== '';
   }
 }
 

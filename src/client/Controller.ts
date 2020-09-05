@@ -1,14 +1,14 @@
-import Model from "./Model";
+import Model from './Model';
 
-import Client from "mesa-js-client";
-import { MoveDirection, InitMessage } from "./defs";
-import { Message } from "mesa-js-client/dist/module/defs";
+import Client from 'mesa-js-client';
+import { MoveDirection, InitMessage } from './defs';
+import { Message } from 'mesa-js-client/dist/module/defs';
 
 const keyMap: [MoveDirection, string[]][] = [
-  ["up", ["ArrowUp", "w"]],
-  ["down", ["ArrowDown", "s"]],
-  ["left", ["ArrowLeft", "a"]],
-  ["right", ["ArrowRight", "d"]]
+  ['up', ['ArrowUp', 'w']],
+  ['down', ['ArrowDown', 's']],
+  ['left', ['ArrowLeft', 'a']],
+  ['right', ['ArrowRight', 'd']]
 ];
 
 interface IController {
@@ -39,39 +39,39 @@ class Controller implements IController {
 
     const direction = directionEntry[0];
     if (!this.model.isMoveValid(direction))
-      return console.log("[MOVE] Can't move in this direction", direction);
+      return console.log('[MOVE] Can\'t move in this direction', direction);
 
-    this.client.send(0, { direction }, "MOVE");
+    this.client.send(0, { direction }, 'MOVE');
   }
 
   private registerDisconnection(code: number, reason: string) {
-    console.log("Disconnected", code, reason);
+    console.log('Disconnected', code, reason);
   }
 
   private registerError(error: Error) {
-    console.log("Error", error);
+    console.log('Error', error);
   }
 
   private registerMessage(message: Message) {
-    if (message.type != "GAME_EVENT")
-      return console.error("Unexpected message from server", message);
+    if (message.type != 'GAME_EVENT')
+      return console.error('Unexpected message from server', message);
     const { data, type } = message.data;
 
     switch (type) {
-      case "PLAYER_JOINED":
+      case 'PLAYER_JOINED':
         this.model.registerJoin(JSON.parse(data.player));
         break;
-      case "PLAYER_LEAVES":
+      case 'PLAYER_LEAVES':
         this.model.registerLeave(data.playerId);
         break;
-      case "PLAYER_TEAM_CHANGE":
+      case 'PLAYER_TEAM_CHANGE':
         this.model.updateTeam(JSON.parse(data.player));
         break;
-      case "PLAYER_MOVED":
+      case 'PLAYER_MOVED':
         this.model.updatePlayerPosition(JSON.parse(data.player));
         break;
       default:
-        console.error("Invalid game event", data);
+        console.error('Invalid game event', data);
         break;
     }
   }

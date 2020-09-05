@@ -1,8 +1,8 @@
-import Client from "@cryb/mesa/server/client";
-import { randomNumber, inRange } from "../utils/util";
-import Entity from "./Entities/Entity";
-import { EventEmitter } from "events";
-import { GameEvent } from "./defs";
+import Client from '@cryb/mesa/server/client';
+import { randomNumber, inRange } from '../utils/util';
+import Entity from './Entities/Entity';
+import { EventEmitter } from 'events';
+import { GameEvent } from './defs';
 
 declare interface GameField {
   field: (Entity | null)[][];
@@ -12,7 +12,7 @@ declare interface GameField {
   move(entity: Entity, offset: number[]): boolean;
   findFreeCell(): [number, number];
   canSpawnAt(x: number, y: number): boolean;
-  on(event: "event", listener: (event: GameEvent, author?: Client) => void): this;
+  on(event: 'event', listener: (event: GameEvent, author?: Client) => void): this;
   safeExport(): string[][];
 }
 
@@ -69,7 +69,7 @@ class GameField extends EventEmitter {
   }
 
   public canSpawnAt(x: number, y: number) {
-    return this.field[y][x] == null && inRange(x, 0, this.width - 1) && inRange(y, 0, this.height - 1);
+    return this.field[y][x] === null && inRange(x, 0, this.width - 1) && inRange(y, 0, this.height - 1);
   }
 
   public safeExport() {

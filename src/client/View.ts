@@ -1,15 +1,15 @@
 // @ts-ignore
-import { Stage } from "konva/lib/Stage";
-import { Stage as TStage } from "konva/types/Stage";
+import { Stage } from 'konva/lib/Stage';
+import { Stage as TStage } from 'konva/types/Stage';
 // @ts-ignore
-import { Layer } from "konva/lib/Layer";
-import { Layer as TLayer } from "konva/types/Layer";
+import { Layer } from 'konva/lib/Layer';
+import { Layer as TLayer } from 'konva/types/Layer';
 // @ts-ignore
-import { Rect } from "konva/lib/shapes/Rect";
-import { Rect as TRect } from "konva/types/shapes/Rect";
+import { Rect } from 'konva/lib/shapes/Rect';
+import { Rect as TRect } from 'konva/types/shapes/Rect';
 
-import { colorMap, Entity } from "./defs";
-import { KonvaEventListener } from "konva/types/Node";
+import { colorMap, Entity } from './defs';
+import { KonvaEventListener } from 'konva/types/Node';
 
 const CANVAS_WIDTH = 256;
 const CANVAS_HEIGHT = 256;
@@ -40,16 +40,16 @@ class View implements IView {
   private cellHeight = 0;
 
   public constructor() {
-    this.tooltip = document.createElement("div");
+    this.tooltip = document.createElement('div');
   }
 
   public setup(mapWidth: number, mapHeight: number) {
-    this.tooltip.id = "tooltip";
+    this.tooltip.id = 'tooltip';
     this.cellWidth = Math.floor(CANVAS_WIDTH / mapWidth);
     this.cellHeight = Math.floor(CANVAS_HEIGHT / mapHeight);
 
-    const container = document.createElement("div");
-    container.id = "game-container";
+    const container = document.createElement('div');
+    container.id = 'game-container';
     document.body.appendChild(container);
     this.stage = new Stage({
       width: this.cellWidth * mapWidth,
@@ -79,9 +79,9 @@ class View implements IView {
     });
 
     if (this.mouseLeaveHandler)
-      shape.on("mouseleave", this.mouseLeaveHandler);
+      shape.on('mouseleave', this.mouseLeaveHandler);
     if (this.mouseMoveHandler)
-      shape.on("mousemove", this.mouseMoveHandler);
+      shape.on('mousemove', this.mouseMoveHandler);
 
     this.shapes.push(shape);
     this.layer.add(shape);
@@ -120,19 +120,19 @@ class View implements IView {
 
   public showTooltip(text: string, top: number, left: number) {
     this.tooltip.innerText = text;
-    this.tooltip.style.setProperty("top", `${top}px`);
-    this.tooltip.style.setProperty("left", `${left}px`);
+    this.tooltip.style.setProperty('top', `${top}px`);
+    this.tooltip.style.setProperty('left', `${left}px`);
   }
 
   public hideTooltip() {
-    this.tooltip.style.removeProperty("top");
-    this.tooltip.style.removeProperty("left");
+    this.tooltip.style.removeProperty('top');
+    this.tooltip.style.removeProperty('left');
   }
 
   private defineEntity(entity: any) {
-    if (entity._entityType === "Player" && entity.team === "Red") return "Player";
-    if (entity._entityType === "Zombie" || entity?.team === "Green") return "Zombie";
-    return "Unknown";
+    if (entity._entityType === 'Player' && entity.team === 'Red') return 'Player';
+    if (entity._entityType === 'Zombie' || entity?.team === 'Green') return 'Zombie';
+    return 'Unknown';
   }
 
   private getShape(x: number, y: number) {

@@ -1,9 +1,9 @@
-﻿import Mesa from "@cryb/mesa";
-import { Server } from "http";
+﻿import Mesa from '@cryb/mesa';
+import { Server } from 'http';
 
 export default (server: Server) => {
   const mesa = new Mesa({
-    path: "/api/ws",
+    path: '/api/ws',
     server,
     heartbeat: {
       enabled: true,

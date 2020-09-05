@@ -1,11 +1,11 @@
-import { Team } from "../game/Entities/Player";
+import { Team } from '../game/Entities/Player';
 
-export { moveMap, MoveDirection } from "../game/defs";
+export { moveMap, MoveDirection } from '../game/defs';
 
 export const colorMap = {
-  Player: "#F00",
-  Zombie: "#0F0",
-  Unknown: "#000",
+  Player: '#F00',
+  Zombie: '#0F0',
+  Unknown: '#000',
 };
 
 export type EntityType = keyof typeof colorMap;

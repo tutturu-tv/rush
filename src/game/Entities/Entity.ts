@@ -1,5 +1,5 @@
-import logger from "../../utils/logger";
-import GameField from "../GameField";
+import logger from '../../utils/logger';
+import GameField from '../GameField';
 
 declare interface Entity {
   x: number;
@@ -27,7 +27,7 @@ abstract class Entity {
 
   public despawn() {
     if (!this.gameField)
-      return logger.error("Can not despawn entity until it spawned");
+      return logger.error('Can not despawn entity until it spawned');
     this.gameField.field[this.y][this.x] = null;
     this.x = 0;
     this.y = 0;
