@@ -1,6 +1,9 @@
 node_modules/
-static/
+dist/
+temp/
 .cache/
+.parcel-cache/
+.vscode/
+*.log
 *.swo
 *.swp
-*.log

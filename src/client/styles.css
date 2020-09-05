@@ -15,6 +15,7 @@ html, body {
   position: absolute;
   top: -9999px;
   left: -9999px;
+  pointer-events: none;
 }
 
 #startScreen-wrap {
@@ -38,8 +39,7 @@ html, body {
 
 #startScreen > input {
   display: block;
-  margin: 10px auto 0;
-  zoom: 2;
+  margin: 20px auto 0;
 }
 
 p.rush {
@@ -55,6 +55,20 @@ p.rush {
   margin: 0;
 }
 
+#name {
+  width: 330px;
+  height: 30px;
+  font-size: 1.7rem;
+  padding: 4px 6px;
+}
+
+#submit {
+  width: 88px;
+  height: 43px;
+  font-size: 1.7rem;
+  padding: 2px 12px;
+}
+
 #errorMsg {
   color: red;
   font-weight: bold;
@@ -67,7 +81,6 @@ p.rush {
   overflow-wrap: break-word;
   transition: width 0.5s, height 0.5s;
   transition-timing-function: cubic-bezier(0.46, 0.03, 0.52, 0.96);
-  
 }
 
 input[type="button"] {
@@ -77,4 +90,9 @@ input[type="button"] {
 input[type="text"].invalidInput {
   border: 0.5px solid red;
   box-shadow: 0px 0px 5px 2px red;
+}
+
+#game-container {
+  background: #FFC125;
+  display: inline-block;
 }

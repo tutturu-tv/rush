@@ -1,2 +1,2 @@
-# rush
-a fast game
+# Rush
+A fast game
