@@ -5,9 +5,10 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "node .",
+    "prebuild:client": "find src/client/* -not -name *.ts -exec cp {} dist/client \\;",
     "build": "yarn build:server && yarn build:client",
     "build:server": "tsc",
-    "build:client": "parcel build src/client/index.html --public-url /static --out-dir dist/client",
+    "build:client": "yarn prebuild:client && parcel build dist/client/index.html --public-url /static --out-dir dist/client",
     "dev": "yarn lint && yarn clean && yarn build && cross-env NODE_ENV=development yarn start",
     "clean": "rm -rf dist",
     "lint": "eslint src --ext .ts",
